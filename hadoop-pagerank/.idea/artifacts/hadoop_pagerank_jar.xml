@@ -1,0 +1,10 @@
+<component name="ArtifactManager">
+  <artifact type="jar" build-on-make="true" name="hadoop-pagerank:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/hadoop_pagerank_jar</output-path>
+    <root id="archive" name="hadoop-pagerank.jar">
+      <element id="module-output" name="hadoop-pagerank" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/commons-cli-1.2.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/hadoop-core-1.0.3.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>
