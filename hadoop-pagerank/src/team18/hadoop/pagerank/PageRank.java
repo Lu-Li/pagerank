@@ -54,24 +54,19 @@ import team18.hadoop.pagerank.job3.PageRankJob3Mapper;
 public class PageRank {
     
     // args keys
-    private static final String KEY_DAMPING = "--damping";
-    private static final String KEY_DAMPING_ALIAS = "-d";
+    private static final String KEY_DAMPING = "-damping";
     
-    private static final String KEY_COUNT = "--count";
-    private static final String KEY_COUNT_ALIAS = "-c";
+    private static final String KEY_COUNT = "-iteration";
     
-    private static final String KEY_INPUT = "--input";
-    private static final String KEY_INPUT_ALIAS = "-i";
+    private static final String KEY_INPUT = "-input";
     
-    private static final String KEY_OUTPUT = "--output";
-    private static final String KEY_OUTPUT_ALIAS = "-o"; 
+    private static final String KEY_OUTPUT = "-output";
 
-//    private static final String KEY_HELP = "--help";
-//    private static final String KEY_HELP_ALIAS = "-h";
     
     // utility attributes
     public static NumberFormat NF = new DecimalFormat("00");
-    public static Set<String> NODES = new HashSet<String>();
+//    public static Set<String> NODES = new HashSet<String>();
+    public static int TOTAL_LINK_NUMS = 5716808;
     public static String LINKS_SEPARATOR = "|";
     
     // configuration values
@@ -86,48 +81,7 @@ public class PageRank {
      * It will run all the jobs needed for the PageRank algorithm.
      */
     public static void main(String[] args) throws Exception {
-        
-//        try {
-//            // parse input parameters
-//            for (int i = 0; i < args.length; i += 2) {
-//
-//                String key = args[i];
-//                String value = args[i + 1];
-//
-//                // NOTE: do not use a switch to keep Java 1.6 compatibility!
-//                if (key.equals(KEY_DAMPING) || key.equals(KEY_DAMPING_ALIAS)) {
-//                    // be sure to have a damping factor in the interval [0:1]
-//                    PageRank.DAMPING = Math.max(Math.min(Double.parseDouble(value), 1.0), 0.0);
-//                } else if (key.equals(KEY_COUNT) || key.equals(KEY_COUNT_ALIAS)) {
-//                    // be sure to have at least 1 iteration for the PageRank algorithm
-//                    PageRank.ITERATIONS = Math.max(Integer.parseInt(value), 1);
-//                } else if (key.equals(KEY_INPUT) || key.equals(KEY_INPUT_ALIAS)) {
-//                    PageRank.IN_PATH = value.trim();
-//                    if (PageRank.IN_PATH.charAt(PageRank.IN_PATH.length() - 1) == '/')
-//                        PageRank.IN_PATH = PageRank.IN_PATH.substring(0, PageRank.IN_PATH.length() - 1);
-//                } else if (key.equals(KEY_OUTPUT) || key.equals(KEY_OUTPUT_ALIAS)) {
-//                    PageRank.OUT_PATH = value.trim();
-//                    if (PageRank.OUT_PATH.charAt(PageRank.OUT_PATH.length() - 1) == '/')
-//                        PageRank.OUT_PATH = PageRank.OUT_PATH.substring(0, PageRank.IN_PATH.length() - 1);
-//                } else if (key.equals(KEY_HELP) || key.equals(KEY_HELP_ALIAS)) {
-//                    printUsageText(null);
-//                    System.exit(0);
-//                }
-//            }
-//
-//        } catch (ArrayIndexOutOfBoundsException e) {
-//            printUsageText(e.getMessage());
-//            System.exit(1);
-//        } catch (NumberFormatException e) {
-//            printUsageText(e.getMessage());
-//            System.exit(1);
-//        }
 
-//
-//        // delete output path if it exists already
-//        FileSystem fs = FileSystem.get(new Configuration());
-//        if (fs.exists(new Path(PageRank.OUT_PATH)))
-//            fs.delete(new Path(PageRank.OUT_PATH), true);
         SimpleParser parser = new SimpleParser(args);
         PageRank.IN_PATH = parser.get("input");
         PageRank.OUT_PATH = parser.get("output");
@@ -161,6 +115,7 @@ public class PageRank {
         if (!isCompleted) {
             System.exit(1);
         }
+//        System.out.println("total = " + NODES.size());
         
         for (int runs = 0; runs < ITERATIONS; runs++) {
             inPath = OUT_PATH + "/iter" + NF.format(runs);
@@ -295,10 +250,10 @@ public class PageRank {
        
         System.out.println("Usage: pagerank.jar " + KEY_INPUT + " <input> " + KEY_OUTPUT + " <output>\n");
         System.out.println("Options:\n");
-        System.out.println("    " + KEY_INPUT + "    (" + KEY_INPUT_ALIAS + ")    <input>       The directory of the input graph [REQUIRED]");
-        System.out.println("    " + KEY_OUTPUT + "   (" + KEY_OUTPUT_ALIAS + ")    <output>      The directory of the output result [REQUIRED]");
-        System.out.println("    " + KEY_DAMPING + "  (" + KEY_DAMPING_ALIAS + ")    <damping>     The damping factor [OPTIONAL]");
-        System.out.println("    " + KEY_COUNT + "    (" + KEY_COUNT_ALIAS + ")    <iterations>  The amount of iterations [OPTIONAL]");
+        System.out.println("    " + KEY_INPUT + "    <input>       The directory of the input graph [REQUIRED]");
+        System.out.println("    " + KEY_OUTPUT + "    <output>      The directory of the output result [REQUIRED]");
+        System.out.println("    " + KEY_DAMPING + "    <damping>     The damping factor, default 0.85 [OPTIONAL]");
+        System.out.println("    " + KEY_COUNT + "    <iterations>  The amount of iterations, default 2 [OPTIONAL]");
     }
     
 }

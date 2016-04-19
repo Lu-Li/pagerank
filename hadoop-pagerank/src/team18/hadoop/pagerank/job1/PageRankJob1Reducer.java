@@ -47,20 +47,17 @@ public class PageRankJob1Reducer extends Reducer<Text, Text, Text, Text> {
          *     
          * As for the pagerank initial value, early version of the PageRank algorithm used 1.0 as default, 
          * however later versions of PageRank assume a probability distribution between 0 and 1, hence the 
-         * initial valus is set to DAMPING FACTOR / TOTAL NODES for each node in the graph.   
+         * initial value is set to DAMPING FACTOR / TOTAL NODES for each node in the graph.
          */
-        
-        boolean first = true;
-        String links = (PageRank.DAMPING / PageRank.NODES.size()) + "\t";
 
+        String s = (1.0 / (double) PageRank.TOTAL_LINK_NUMS) + "\t";
+
+        StringBuilder links = new StringBuilder().append(s);
         for (Text value : values) {
-            if (!first) 
-                links += ",";
-            links += value.toString();
-            first = false;
+            links.append(value.toString()).append(",");
         }
-
-        context.write(key, new Text(links));
+        links.setLength(links.length() - 1);
+        context.write(key, new Text(links.toString()));
     }
 
 }

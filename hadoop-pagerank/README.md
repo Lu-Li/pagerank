@@ -16,7 +16,6 @@ Hadoop PageRank
 
 ### Usage reference
 
-* **--help** (*-h*): display the help text
 * **--damping** (*-d*) <damping>: the damping factor [**OPTIONAL**] [**DEFAULT** = **0.85**]
 * **--count** (*-c*) <iterations>: the amount of iterations [**OPTIONAL**] [**DEFAULT** = **2**]
 * **--input** (*-i*) <input-dir>: the directory of the input graph [**REQUIRED**]

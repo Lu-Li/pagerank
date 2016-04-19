@@ -44,18 +44,18 @@ public class PageRankJob2Reducer extends Reducer<Text, Text, Text, Text> {
          * Input file format has 2 kind of records (separator is TAB):
          * 
          * One record composed by the collection of links of each page:
-         * 
          *     <title>   |<link1>,<link2>,<link3>,<link4>, ... , <linkN>
          *     
          * Another record composed by the linked page, the page rank of the source page 
          * and the total amount of out links of the source page:
-         *
          *     <link>    <page-rank>    <total-links>
+         * Output format (separator is TAB):
+         * <link>   <page-rank> <link1>,<link2>,<link3>,...,<linkN>
          */
         
         String links = "";
         double sumShareOtherPageRanks = 0.0;
-        
+
         for (Text value : values) {
  
             String content = value.toString();
@@ -64,10 +64,10 @@ public class PageRankJob2Reducer extends Reducer<Text, Text, Text, Text> {
                 // if this value contains node links append them to the 'links' string
                 // for future use: this is needed to reconstruct the input for Job#2 mapper
                 // in case of multiple iterations of it.
-                links += content.substring(PageRank.LINKS_SEPARATOR.length());
+                links = content.substring(PageRank.LINKS_SEPARATOR.length());
             } else {
                 
-                String[] split = content.split("\\t");
+                String[] split = content.split("\t");
                 
                 // extract tokens
                 double pageRank = Double.parseDouble(split[0]);

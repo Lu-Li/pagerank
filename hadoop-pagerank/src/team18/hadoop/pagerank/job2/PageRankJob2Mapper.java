@@ -55,24 +55,23 @@ public class PageRankJob2Mapper extends Mapper<LongWritable, Text, Text, Text> {
          *  
          *     <link>    <page-rank>    <total-links>
          */
-        
-        int tIdx1 = value.find("\t");
-        int tIdx2 = value.find("\t", tIdx1 + 1);
 
-        // extract tokens from the current line
-        String page = Text.decode(value.getBytes(), 0, tIdx1);
-        String pageRank = Text.decode(value.getBytes(), tIdx1 + 1, tIdx2 - (tIdx1 + 1));
-        String links = Text.decode(value.getBytes(), tIdx2 + 1, value.getLength() - (tIdx2 + 1));
-        
-        String[] allOtherPages = links.split(",");
-        for (String otherPage : allOtherPages) { 
-            Text pageRankWithTotalLinks = new Text(pageRank + "\t" + allOtherPages.length);
-            context.write(new Text(otherPage), pageRankWithTotalLinks); 
+        String[] line = value.toString().split("\t");
+        // dangling users will has length = 2, since they don't refer to any pages
+        if (line.length == 3) {
+            String page = line[0];
+            String pageRank = line[1];
+            String links = line[2];
+
+            String[] allOtherPages = links.split(",");
+            for (String otherPage : allOtherPages) {
+                Text pageRankWithTotalLinks = new Text(pageRank + "\t" + allOtherPages.length);
+                context.write(new Text(otherPage), pageRankWithTotalLinks);
+            }
+
+            // put the original links so the reducer is able to produce the correct output
+            context.write(new Text(page), new Text(PageRank.LINKS_SEPARATOR + links));
         }
-        
-        // put the original links so the reducer is able to produce the correct output
-        context.write(new Text(page), new Text(PageRank.LINKS_SEPARATOR + links));
-        
     }
     
 }

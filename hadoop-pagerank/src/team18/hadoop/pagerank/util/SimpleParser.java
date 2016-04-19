@@ -15,8 +15,6 @@ import org.apache.commons.cli.Parser;
  * A simplified command line option parser. Get the option value on the run.
  * Pitfall is it ignores all unrecognized options.
  *
- * @author Dongzhen Piao
- *
  */
 public class SimpleParser {
 

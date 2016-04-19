@@ -41,21 +41,19 @@ public class PageRankJob3Mapper extends Mapper<LongWritable, Text, DoubleWritabl
         
         /* Rank Ordering (mapper only)
          * Input file format (separator is TAB):
-         * 
          *     <title>    <page-rank>    <link1>,<link2>,<link3>,<link4>,... ,<linkN>
          * 
          * This is a simple job which does the ordering of our documents according to the computed pagerank.
          * We will map the pagerank (key) to its value (page) and Hadoop will do the sorting on keys for us.
          * There is no need to implement a reducer: the mapping and sorting is enough for our purpose.
+         * output format is (separator is TAB):
+         *  <page-rank> <title>
          */
-        
-        int tIdx1 = value.find("\t");
-        int tIdx2 = value.find("\t", tIdx1 + 1);
-        
-        // extract tokens from the current line
-        String page = Text.decode(value.getBytes(), 0, tIdx1);
-        float pageRank = Float.parseFloat(Text.decode(value.getBytes(), tIdx1 + 1, tIdx2 - (tIdx1 + 1)));
-        
+
+        String[] line = value.toString().split("\t");
+        String page = line[0];
+        Double pageRank = Double.valueOf(line[1]);
+
         context.write(new DoubleWritable(pageRank), new Text(page));
         
     }
