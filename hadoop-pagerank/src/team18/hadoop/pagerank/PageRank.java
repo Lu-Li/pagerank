@@ -65,13 +65,11 @@ public class PageRank {
     
     // utility attributes
     public static NumberFormat NF = new DecimalFormat("00");
-//    public static Set<String> NODES = new HashSet<String>();
-    public static int TOTAL_LINK_NUMS = 5716808;
     public static String LINKS_SEPARATOR = "|";
     
     // configuration values
     public static Double DAMPING = 0.85;
-    public static int ITERATIONS = 2;
+    public static int ITERATIONS = 10;
     public static String IN_PATH = "";
     public static String OUT_PATH = "";
     
@@ -115,7 +113,6 @@ public class PageRank {
         if (!isCompleted) {
             System.exit(1);
         }
-//        System.out.println("total = " + NODES.size());
         
         for (int runs = 0; runs < ITERATIONS; runs++) {
             inPath = OUT_PATH + "/iter" + NF.format(runs);
@@ -147,8 +144,7 @@ public class PageRank {
     public boolean job1(String in, String out) throws IOException, 
                                                       ClassNotFoundException, 
                                                       InterruptedException {
-        
-//        Job job = Job.getInstance(new Configuration(), "Job #1");
+
         Job job = new Job(new Configuration(), "Job #1");
         job.setJarByClass(PageRank.class);
         
@@ -181,8 +177,7 @@ public class PageRank {
     public boolean job2(String in, String out) throws IOException, 
                                                       ClassNotFoundException, 
                                                       InterruptedException {
-        
-//        Job job = Job.getInstance(new Configuration(), "Job #2");
+
         Job job = new Job(new Configuration(), "Job #2");
         job.setJarByClass(PageRank.class);
         
@@ -214,8 +209,7 @@ public class PageRank {
     public boolean job3(String in, String out) throws IOException, 
                                                       ClassNotFoundException, 
                                                       InterruptedException {
-        
-//        Job job = Job.getInstance(new Configuration(), "Job #3");
+
         Job job = new Job(new Configuration(), "Job #3");
         job.setJarByClass(PageRank.class);
         
@@ -252,8 +246,8 @@ public class PageRank {
         System.out.println("Options:\n");
         System.out.println("    " + KEY_INPUT + "    <input>       The directory of the input graph [REQUIRED]");
         System.out.println("    " + KEY_OUTPUT + "    <output>      The directory of the output result [REQUIRED]");
-        System.out.println("    " + KEY_DAMPING + "    <damping>     The damping factor, default 0.85 [OPTIONAL]");
-        System.out.println("    " + KEY_COUNT + "    <iterations>  The amount of iterations, default 2 [OPTIONAL]");
+        System.out.println("    " + KEY_DAMPING + "    <damping>     The damping factor, default 0.85 [REQUIRED]");
+        System.out.println("    " + KEY_COUNT + "    <iterations>  The amount of iterations, default 10 [REQUIRED]");
     }
     
 }

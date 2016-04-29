@@ -35,7 +35,7 @@ import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Reducer;
 
 public class PageRankJob1Reducer extends Reducer<Text, Text, Text, Text> {
-    
+
     @Override
     public void reduce(Text key, Iterable<Text> values, Context context) throws IOException, InterruptedException {
         
@@ -50,7 +50,7 @@ public class PageRankJob1Reducer extends Reducer<Text, Text, Text, Text> {
          * initial value is set to DAMPING FACTOR / TOTAL NODES for each node in the graph.
          */
 
-        String s = (1.0 / (double) PageRank.TOTAL_LINK_NUMS) + "\t";
+        String s = (1.0 / (double) 5716808) + "\t";
 
         StringBuilder links = new StringBuilder().append(s);
         for (Text value : values) {
